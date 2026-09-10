@@ -3,31 +3,31 @@
 **Produkt:** EXTELIO  
 **Claim:** Software-defined Communications  
 **Produktart:** Software-defined PBX / Business Communications Platform  
-**Dokumentstatus:** ARCHITECTURE_COMPLETE / IMPLEMENTATION_LOCK_PENDING  
+**Dokumentstatus:** ARCHITECTURE\_COMPLETE / IMPLEMENTATION\_LOCK\_PENDING  
 **Stand:** 2026-09-10  
 **Zweck:** Kanonische Minimal-Spezifikation des final gewählten Systemzustands. Historische Alternativen, verworfene Varianten und Entscheidungsdiskussionen sind nicht Bestandteil dieses Dokuments.
 
-> **Leitprinzip:** Simple outside, rigorous inside.
+> \*\*Leitprinzip:\*\* Simple outside, rigorous inside.
 
----
+\---
 
-# 1. Produktidentität und Ziel
+# 1\. Produktidentität und Ziel
 
 EXTELIO ist eine **einzige direkt installierbare Home-Assistant-App** für Telefonie, PBX, Routing, Provisioning und Kommunikationsverwaltung.
 
 Verbindlich:
 
-- genau eine installierte HA-App;
-- kein separater PBX-Host, keine VM, kein Docker Compose;
-- kein Home-Assistant-Ingress;
-- eigenes Web-Frontend und eigene Authentifizierung;
-- FreeSWITCH als Telephony Core;
-- lokale Nutzung ohne verpflichtende Herstellercloud;
-- Groundwire/Acrobits-Push optional;
-- Wizard-first, Progressive Disclosure, Expert Mode;
-- Domain Model ist die fachliche Source of Truth;
-- FreeSWITCH-Konfiguration wird ausschließlich aus dem Desired State erzeugt;
-- Standards werden als testbare Anforderungen mit Evidence umgesetzt.
+* genau eine installierte HA-App;
+* kein separater PBX-Host, keine VM, kein Docker Compose;
+* kein Home-Assistant-Ingress;
+* eigenes Web-Frontend und eigene Authentifizierung;
+* FreeSWITCH als Telephony Core;
+* lokale Nutzung ohne verpflichtende Herstellercloud;
+* Groundwire/Acrobits-Push optional;
+* Wizard-first, Progressive Disclosure, Expert Mode;
+* Domain Model ist die fachliche Source of Truth;
+* FreeSWITCH-Konfiguration wird ausschließlich aus dem Desired State erzeugt;
+* Standards werden als testbare Anforderungen mit Evidence umgesetzt.
 
 ## 1.1 Markenbotschaften
 
@@ -61,21 +61,21 @@ INDEPENDENT
 
 Reservierte Modulnamen:
 
-| Name | Funktion |
-|---|---|
-| EXTELIO Core | PBX / Call Control |
-| EXTELIO Flow | Routing und Call Flows |
-| EXTELIO Desk | Web-/Desktop-Client |
-| EXTELIO Mobile | Smartphone-Client |
-| EXTELIO Edge | Standort-/Gateway-Komponente |
-| EXTELIO Connect | Provider und externe Integrationen |
-| EXTELIO Provision | Endgeräte- und Provisionierungsverwaltung |
+|Name|Funktion|
+|-|-|
+|EXTELIO Core|PBX / Call Control|
+|EXTELIO Flow|Routing und Call Flows|
+|EXTELIO Desk|Web-/Desktop-Client|
+|EXTELIO Mobile|Smartphone-Client|
+|EXTELIO Edge|Standort-/Gateway-Komponente|
+|EXTELIO Connect|Provider und externe Integrationen|
+|EXTELIO Provision|Endgeräte- und Provisionierungsverwaltung|
 
 Die Home-Assistant-App wird als **EXTELIO** angezeigt; `EXTELIO Core` bezeichnet intern den PBX-/Call-Control-Kern.
 
----
+\---
 
-# 2. Designsystem
+# 2\. Designsystem
 
 ## 2.1 Design-DNA
 
@@ -97,14 +97,14 @@ Keine Oberfläche oder Marke wird kopiert.
 
 Visuelle Eigenschaften:
 
-- präzise;
-- modular;
-- vernetzt;
-- souverän;
-- technisch;
-- ruhig;
-- skalierbar;
-- professionell.
+* präzise;
+* modular;
+* vernetzt;
+* souverän;
+* technisch;
+* ruhig;
+* skalierbar;
+* professionell.
 
 ## 2.2 Markenregel
 
@@ -112,13 +112,13 @@ Visuelle Eigenschaften:
 
 Zu vermeiden:
 
-- Telefonhörer als primäres Markenzeichen;
-- klassische Sprechblase als Logo;
-- Funkwellen-über-Hörer-Symbolik;
-- Globus-/Weltkugellogo;
-- generische Punktnetzwerk-Logos;
-- Neon-/Cyberpunk-Ästhetik;
-- dekorative SaaS-Kacheln ohne funktionale Bedeutung.
+* Telefonhörer als primäres Markenzeichen;
+* klassische Sprechblase als Logo;
+* Funkwellen-über-Hörer-Symbolik;
+* Globus-/Weltkugellogo;
+* generische Punktnetzwerk-Logos;
+* Neon-/Cyberpunk-Ästhetik;
+* dekorative SaaS-Kacheln ohne funktionale Bedeutung.
 
 ## 2.3 Logo und Signet
 
@@ -135,49 +135,49 @@ Das Signet basiert auf einem abstrahierten **X** aus Signalpfaden / Routing / Cr
 
 Es muss funktionieren als:
 
-- App Icon;
-- Favicon;
-- Browser Tab Icon;
-- Installer Icon;
-- Mobile Icon;
-- System Tray Icon.
+* App Icon;
+* Favicon;
+* Browser Tab Icon;
+* Installer Icon;
+* Mobile Icon;
+* System Tray Icon.
 
 ## 2.4 Signal Paths
 
 Zentrales grafisches Leitmotiv:
 
-- dünne geometrische Linien;
-- verbinden, verzweigen, kreuzen und routen;
-- enden an Nodes;
-- Zustandswechsel dürfen sichtbar werden;
-- reduziert, nicht wie eine Leiterplatte.
+* dünne geometrische Linien;
+* verbinden, verzweigen, kreuzen und routen;
+* enden an Nodes;
+* Zustandswechsel dürfen sichtbar werden;
+* reduziert, nicht wie eine Leiterplatte.
 
 Einsatz:
 
-- Login;
-- Dashboard;
-- Flow Editor;
-- Communication Map;
-- Website;
-- Dokumentation;
-- Präsentationen.
+* Login;
+* Dashboard;
+* Flow Editor;
+* Communication Map;
+* Website;
+* Dokumentation;
+* Präsentationen.
 
 ## 2.5 Farbpalette
 
-| Token | Hex | Verwendung |
-|---|---|---|
-| Extelio Blue | `#2864DC` | Primary, CTA, aktive Navigation, Links |
-| Extelio Blue Bright | `#3B82F6` | Hover, Focus, aktive technische Zustände |
-| Extelio Ink | `#111827` | Haupttext, Dark Background |
-| Extelio Graphite | `#232934` | Dark Surfaces |
-| Extelio Slate | `#667085` | Sekundärtext, Metadaten |
-| Extelio Border | `#E4E7EC` | Border, Divider, Tabellen |
-| Extelio Canvas | `#F6F7F9` | Light Background |
-| Extelio Surface | `#FFFFFF` | Panels, Karten, Tabellen |
-| Success / Online | `#22C55E` | funktionaler Status |
-| Warning / Degraded | `#F59E0B` | funktionaler Status |
-| Critical / Offline | `#EF4444` | funktionaler Status |
-| Info | `#3B82F6` | funktionaler Status |
+|Token|Hex|Verwendung|
+|-|-|-|
+|Extelio Blue|`#2864DC`|Primary, CTA, aktive Navigation, Links|
+|Extelio Blue Bright|`#3B82F6`|Hover, Focus, aktive technische Zustände|
+|Extelio Ink|`#111827`|Haupttext, Dark Background|
+|Extelio Graphite|`#232934`|Dark Surfaces|
+|Extelio Slate|`#667085`|Sekundärtext, Metadaten|
+|Extelio Border|`#E4E7EC`|Border, Divider, Tabellen|
+|Extelio Canvas|`#F6F7F9`|Light Background|
+|Extelio Surface|`#FFFFFF`|Panels, Karten, Tabellen|
+|Success / Online|`#22C55E`|funktionaler Status|
+|Warning / Degraded|`#F59E0B`|funktionaler Status|
+|Critical / Offline|`#EF4444`|funktionaler Status|
+|Info|`#3B82F6`|funktionaler Status|
 
 Regel: ca. 85–90 % der UI bestehen aus neutralen Flächen/Textfarben; Blau ist gezielter Interaktions-/Markenakzent.
 
@@ -215,23 +215,23 @@ Dark Mode ist funktional gleichwertig und wird aus denselben semantischen Tokens
 Bevorzugt: **Inter**  
 Alternative: **Geist**
 
-| Verwendung | Größe | Gewicht |
-|---|---:|---:|
-| Page Title | 24–28 px | 600 |
-| Section Title | 18–20 px | 600 |
-| Card/Panel Title | 15–16 px | 600 |
-| Body | 14 px | 400 |
-| Table | 13–14 px | 400–500 |
-| Metadata | 12 px | 400 |
-| Button | 13–14 px | 500–600 |
+|Verwendung|Größe|Gewicht|
+|-|-:|-:|
+|Page Title|24–28 px|600|
+|Section Title|18–20 px|600|
+|Card/Panel Title|15–16 px|600|
+|Body|14 px|400|
+|Table|13–14 px|400–500|
+|Metadata|12 px|400|
+|Button|13–14 px|500–600|
 
 Wortmarke:
 
-- EXTELIO in Versalien;
-- SemiBold/Bold;
-- leicht erhöhtes Letterspacing;
-- breit, ruhig, technisch;
-- keine futuristische Verzerrung.
+* EXTELIO in Versalien;
+* SemiBold/Bold;
+* leicht erhöhtes Letterspacing;
+* breit, ruhig, technisch;
+* keine futuristische Verzerrung.
 
 ## 2.8 Geometrie
 
@@ -345,13 +345,13 @@ Objekte werden möglichst ohne Kontextverlust in einem rechten Detailpanel bearb
 
 Tabellen:
 
-- sortierbar;
-- filterbar;
-- Bulk Actions;
-- Row Selection;
-- Kontextmenü `…`;
-- Klick öffnet Detailpanel;
-- Density: `Comfortable` / `Compact`.
+* sortierbar;
+* filterbar;
+* Bulk Actions;
+* Row Selection;
+* Kontextmenü `…`;
+* Klick öffnet Detailpanel;
+* Density: `Comfortable` / `Compact`.
 
 ## 2.12 Statusdarstellung
 
@@ -395,17 +395,17 @@ EXTELIO Flow ist der visuelle Editor für den typisierten Routing Graph.
 
 Unterstützte Nodes mindestens:
 
-- Incoming Number;
-- Schedule / Business Hours;
-- User / Extension;
-- Ring Group;
-- Queue;
-- IVR;
-- Announcement;
-- Voicemail;
-- External Number;
-- Condition;
-- Fallback / End.
+* Incoming Number;
+* Schedule / Business Hours;
+* User / Extension;
+* Ring Group;
+* Queue;
+* IVR;
+* Announcement;
+* Voicemail;
+* External Number;
+* Condition;
+* Fallback / End.
 
 Simulation und Live-Diagnose dürfen aktive Signalwege visuell hervorheben.
 
@@ -413,25 +413,25 @@ Simulation und Live-Diagnose dürfen aktive Signalwege visuell hervorheben.
 
 Topologie-/Diagnoseansicht für:
 
-- Core;
-- Sites;
-- SIP Provider;
-- Trunks;
-- Gateways;
-- Edge Nodes;
-- Devices;
-- Mobile Clients;
-- Softphones.
+* Core;
+* Sites;
+* SIP Provider;
+* Trunks;
+* Gateways;
+* Edge Nodes;
+* Devices;
+* Mobile Clients;
+* Softphones.
 
 Zweck: Übersicht, Diagnose, Navigation.
 
 ## 2.16 Iconographie
 
-- Outline;
-- geometrisch;
-- 1.5–2 px Stroke;
-- klare Silhouetten;
-- reduzierte Details.
+* Outline;
+* geometrisch;
+* 1.5–2 px Stroke;
+* klare Silhouetten;
+* reduzierte Details.
 
 Iconfamilie mindestens:
 
@@ -511,28 +511,28 @@ src/web/src/design/
 └── components/
 ```
 
-**Visuelle Referenz:** `EXTELIO_BRANDBOARD.png`
+**Visuelle Referenz:** `EXTELIO\_BRANDBOARD.png`
 
----
+\---
 
-# 3. Normative Basis
+# 3\. Normative Basis
 
 Verbindlich zu berücksichtigen und in einer Requirements-/Evidence-Matrix abzubilden:
 
-- DSGVO / Privacy by Design / Privacy by Default;
-- ISO/IEC 25010:2023;
-- ISO/IEC 27001:2022 als organisatorische Referenz, keine ungeprüfte Zertifizierungsbehauptung;
-- BSI IT-Grundschutz NET.4.1 TK-Anlagen;
-- BSI IT-Grundschutz NET.4.2 VoIP;
-- Common Criteria CC:2022 / CEM:2022;
-- OWASP Top 10;
-- OWASP ASVS 5.0.0: Level 2 vollständig + gezielte Level-3-Anforderungen;
-- NIST SP 800-218 SSDF v1.1;
-- RFC 3261 SIP;
-- RFC 3550 RTP;
-- RFC 3711 SRTP;
-- RFC 4568 SDP Security Descriptions;
-- RFC 5630 SIPS.
+* DSGVO / Privacy by Design / Privacy by Default;
+* ISO/IEC 25010:2023;
+* ISO/IEC 27001:2022 als organisatorische Referenz, keine ungeprüfte Zertifizierungsbehauptung;
+* BSI IT-Grundschutz NET.4.1 TK-Anlagen;
+* BSI IT-Grundschutz NET.4.2 VoIP;
+* Common Criteria CC:2022 / CEM:2022;
+* OWASP Top 10;
+* OWASP ASVS 5.0.0: Level 2 vollständig + gezielte Level-3-Anforderungen;
+* NIST SP 800-218 SSDF v1.1;
+* RFC 3261 SIP;
+* RFC 3550 RTP;
+* RFC 3711 SRTP;
+* RFC 4568 SDP Security Descriptions;
+* RFC 5630 SIPS.
 
 Compliance-Ziel: **certification-ready**, nicht „zertifiziert“.
 
@@ -542,12 +542,12 @@ Responsibilities:
 PRODUCT
 OPERATOR
 SHARED
-NOT_APPLICABLE + Begründung
+NOT\_APPLICABLE + Begründung
 ```
 
----
+\---
 
-# 4. Systemarchitektur
+# 4\. Systemarchitektur
 
 ## 4.1 Deployment
 
@@ -566,12 +566,12 @@ Home Assistant OS / Supervisor
 Verbindlich:
 
 ```text
-host_network: true
+host\_network: true
 Protection Mode: on
 Ingress: false
 Docker API: false
-SYS_ADMIN: false
-NET_ADMIN: false
+SYS\_ADMIN: false
+NET\_ADMIN: false
 unnötige Mounts/Devices: false
 Custom AppArmor: required
 ```
@@ -580,18 +580,18 @@ Host Networking ist ein dokumentierter Trade-off und wird durch Prozess-, UID-, 
 
 ## 4.2 Runtime und Komponenten
 
-| Bereich | Festlegung |
-|---|---|
-| Base | Home Assistant Base Image, Multi-Stage Build |
-| Backend | Rust + Axum |
-| Frontend | React + TypeScript strict |
-| Telephony | FreeSWITCH |
-| Process Supervisor | s6-overlay aus HA Base |
-| Database | SQLite + WAL |
-| ACME | Certbot |
-| Config | Desired State + Compiler |
-| Media | FreeSWITCH Media Anchor |
-| HA UI | eigene Weboberfläche, kein Ingress |
+|Bereich|Festlegung|
+|-|-|
+|Base|Home Assistant Base Image, Multi-Stage Build|
+|Backend|Rust + Axum|
+|Frontend|React + TypeScript strict|
+|Telephony|FreeSWITCH|
+|Process Supervisor|s6-overlay aus HA Base|
+|Database|SQLite + WAL|
+|ACME|Certbot|
+|Config|Desired State + Compiler|
+|Media|FreeSWITCH Media Anchor|
+|HA UI|eigene Weboberfläche, kein Ingress|
 
 Unix-Principals mindestens:
 
@@ -603,9 +603,9 @@ freeswitch
 certbot
 ```
 
----
+\---
 
-# 5. Netzwerk, SIP und Ports
+# 5\. Netzwerk, SIP und Ports
 
 ## 5.1 Sofia-Sicherheitsprofile
 
@@ -619,29 +619,29 @@ TRUNK
 
 Jedes besitzt eigene:
 
-- Bindings;
-- Authentifizierung;
-- ACL/Policy;
-- Dialplan Context;
-- Rate Limits;
-- Transportregeln.
+* Bindings;
+* Authentifizierung;
+* ACL/Policy;
+* Dialplan Context;
+* Rate Limits;
+* Transportregeln.
 
 ## 5.2 Standard-Bindings
 
 Single-IP-Standard:
 
-| Funktion | Default |
-|---|---|
-| Web HTTP | `8080/TCP` |
-| Web HTTPS | `8443/TCP` |
-| LOCAL SIP | `5060 UDP/TCP` |
-| LOCAL SIPS | `5061/TCP` |
-| PUBLIC/PUSH SIP | `5080 UDP/TCP` |
-| PUBLIC/PUSH SIPS | `5081/TCP` |
-| TRUNK SIP | `5090 UDP/TCP` |
-| TRUNK SIPS | `5091/TCP` |
-| RTP/SRTP | `16384–32768/UDP` |
-| ESL | `127.0.0.1:8021/TCP` |
+|Funktion|Default|
+|-|-|
+|Web HTTP|`8080/TCP`|
+|Web HTTPS|`8443/TCP`|
+|LOCAL SIP|`5060 UDP/TCP`|
+|LOCAL SIPS|`5061/TCP`|
+|PUBLIC/PUSH SIP|`5080 UDP/TCP`|
+|PUBLIC/PUSH SIPS|`5081/TCP`|
+|TRUNK SIP|`5090 UDP/TCP`|
+|TRUNK SIPS|`5091/TCP`|
+|RTP/SRTP|`16384–32768/UDP`|
+|ESL|`127.0.0.1:8021/TCP`|
 
 Ports sind frei konfigurierbar, aber Konflikte werden validiert.
 
@@ -679,12 +679,12 @@ TRUNK       stärkstes providerkompatibles Profil
 
 STRICT umfasst:
 
-- TLS wo anwendbar;
-- SRTP für PUBLIC/PUSH;
-- keine Guest Calls;
-- starke Credentials;
-- Rate Limits;
-- kein stiller Downgrade.
+* TLS wo anwendbar;
+* SRTP für PUBLIC/PUSH;
+* keine Guest Calls;
+* starke Credentials;
+* Rate Limits;
+* kein stiller Downgrade.
 
 COMPATIBLE/LEGACY nur explizit.
 
@@ -717,11 +717,11 @@ password: random >=256-bit entropy
 nat-map: false
 ```
 
-Nie Default `ClueCon`.
+Nie das bekannte FreeSWITCH-Standardpasswort.
 
----
+\---
 
-# 6. Identity & Access Management
+# 6\. Identity \& Access Management
 
 ## 6.1 Login
 
@@ -768,12 +768,12 @@ WebAuthn über etablierte Safe-API-Library.
 
 ## 6.4 Sessions
 
-- serverseitig in SQLite;
-- opaque Cookie;
-- keine Auth-Tokens im `localStorage`;
-- widerrufbar;
-- Idle-/Absolute Timeout;
-- Session Rotation.
+* serverseitig in SQLite;
+* opaque Cookie;
+* keine Auth-Tokens im `localStorage`;
+* widerrufbar;
+* Idle-/Absolute Timeout;
+* Session Rotation.
 
 HTTPS-Cookie:
 
@@ -819,11 +819,11 @@ Besonders kritische Policies können Passwort + Passkey verlangen.
 
 E-Mail-basierter Recovery-Prozess:
 
-- einmalige zufällige Tokens;
-- serverseitig gehasht;
-- kurze Gültigkeit;
-- keine Account-Enumeration;
-- MFA-Reset als eigener privilegierter Prozess.
+* einmalige zufällige Tokens;
+* serverseitig gehasht;
+* kurze Gültigkeit;
+* keine Account-Enumeration;
+* MFA-Reset als eigener privilegierter Prozess.
 
 ## 6.8 Brute Force
 
@@ -840,9 +840,9 @@ Auth method
 
 Maschinen erhalten eigene Service Accounts mit scoped Tokens, Rotation und eigenem Audit.
 
----
+\---
 
-# 7. Secret & Key Management
+# 7\. Secret \& Key Management
 
 ## 7.1 Root KEK
 
@@ -869,14 +869,14 @@ Root KEK
 Crypto-Metadaten:
 
 ```text
-crypto_version
+crypto\_version
 algorithm
-key_id
-wrapped_dek
+key\_id
+wrapped\_dek
 nonce
 ciphertext
 tag
-created_at
+created\_at
 ```
 
 Crypto Agility bleibt vorgesehen; initial nur freigegebene Suite aktiv.
@@ -886,15 +886,15 @@ Crypto Agility bleibt vorgesehen; initial nur freigegebene Suite aktiv.
 Mindestens:
 
 ```text
-AUTH_SECRET
-TOTP_SECRET
-SIP_CREDENTIAL
-TRUNK_CREDENTIAL
-DNS_API_TOKEN
-ACME_SECRET
-SERVICE_TOKEN
-BACKUP_KEY
-PRIVATE_KEY
+AUTH\_SECRET
+TOTP\_SECRET
+SIP\_CREDENTIAL
+TRUNK\_CREDENTIAL
+DNS\_API\_TOKEN
+ACME\_SECRET
+SERVICE\_TOKEN
+BACKUP\_KEY
+PRIVATE\_KEY
 ```
 
 Jede Klasse definiert Reveal, Rotation, Export, Retention, Audit und Scope.
@@ -922,14 +922,14 @@ Sensible Rust-Werte benutzen Secret-/Zeroizing-Wrapper.
 
 ## 7.5 Rotation und Löschung
 
-- policybasierte Rotation;
-- KEK-Rotation durch Rewrap der DEKs;
-- Crypto Erasure durch Entfernen des wrapped DEK;
-- Secret Lifecycle vollständig auditiert.
+* policybasierte Rotation;
+* KEK-Rotation durch Rewrap der DEKs;
+* Crypto Erasure durch Entfernen des wrapped DEK;
+* Secret Lifecycle vollständig auditiert.
 
----
+\---
 
-# 8. Domain Model
+# 8\. Domain Model
 
 Domain-Grenzen:
 
@@ -1011,12 +1011,12 @@ Routing ist ein **typisierter Graph**, kein Raw-Dialplan.
 
 Validierung:
 
-- Referenzen;
-- Dead Ends;
-- Zyklen;
-- Security Policies;
-- Capability;
-- Simulation.
+* Referenzen;
+* Dead Ends;
+* Zyklen;
+* Security Policies;
+* Capability;
+* Simulation.
 
 ## 8.5 Scheduling
 
@@ -1059,14 +1059,14 @@ Published Snapshots sind rollbackfähig und gehasht.
 
 ## 8.9 IDs und Events
 
-- UUIDv7;
-- Transactional Outbox;
-- idempotente Consumer;
-- Domain Event Schema Versioning.
+* UUIDv7;
+* Transactional Outbox;
+* idempotente Consumer;
+* Domain Event Schema Versioning.
 
----
+\---
 
-# 9. Config Compiler & FreeSWITCH Adapter
+# 9\. Config Compiler \& FreeSWITCH Adapter
 
 Pipeline:
 
@@ -1132,27 +1132,27 @@ rollback previous generation
 
 ## 9.3 Runtime Adapter
 
-- eigener FreeSWITCH-Adapter;
-- dauerhafte ESL-Verbindung;
-- normalisierte Domain Events;
-- Published-Snapshot-Cache für XML lookups;
-- kontinuierlicher Desired-vs-Actual Reconciler;
-- Drift Detection;
-- Generation Manifest mit Hashes.
+* eigener FreeSWITCH-Adapter;
+* dauerhafte ESL-Verbindung;
+* normalisierte Domain Events;
+* Published-Snapshot-Cache für XML lookups;
+* kontinuierlicher Desired-vs-Actual Reconciler;
+* Drift Detection;
+* Generation Manifest mit Hashes.
 
 Nur explizit erlaubte FreeSWITCH-Module werden gebaut/geladen.
 
----
+\---
 
-# 10. SIP Provider & Trunks
+# 10\. SIP Provider \& Trunks
 
 ## 10.1 Provider Catalog
 
-- eingebaute geprüfte Templates;
-- unabhängige signierte/versionierte Katalogupdates;
-- deklarative Daten, kein Fremdcode;
-- bestehende Trunks nie ungefragt migrieren;
-- Generic SIP immer verfügbar.
+* eingebaute geprüfte Templates;
+* unabhängige signierte/versionierte Katalogupdates;
+* deklarative Daten, kein Fremdcode;
+* bestehende Trunks nie ungefragt migrieren;
+* Generic SIP immer verfügbar.
 
 ## 10.2 Auth Capabilities
 
@@ -1199,33 +1199,33 @@ Normalized Causes mindestens:
 
 ```text
 BUSY
-NO_ANSWER
+NO\_ANSWER
 REJECTED
 UNREACHABLE
-AUTH_FAILED
-PROVIDER_FAILURE
-NETWORK_FAILURE
-INVALID_NUMBER
-POLICY_BLOCKED
+AUTH\_FAILED
+PROVIDER\_FAILURE
+NETWORK\_FAILURE
+INVALID\_NUMBER
+POLICY\_BLOCKED
 ```
 
 ## 10.5 Provider Defaults
 
 Unterstützt:
 
-- DNS/NAPTR/SRV/A/AAAA;
-- TTL-respektierende Resolver;
-- SIP OPTIONS Health;
-- begrenztes Backoff;
-- Header-Normalisierung;
-- PAI/Privacy/From Policies;
-- Provider-spezifische Nummernformatierung;
-- Codec Allowlist;
-- RFC 4733 DTMF bevorzugt.
+* DNS/NAPTR/SRV/A/AAAA;
+* TTL-respektierende Resolver;
+* SIP OPTIONS Health;
+* begrenztes Backoff;
+* Header-Normalisierung;
+* PAI/Privacy/From Policies;
+* Provider-spezifische Nummernformatierung;
+* Codec Allowlist;
+* RFC 4733 DTMF bevorzugt.
 
----
+\---
 
-# 11. Endgeräte & Provisioning
+# 11\. Endgeräte \& Provisioning
 
 ## 11.1 Enrollment
 
@@ -1233,7 +1233,7 @@ Alle Modi unterstützt:
 
 ```text
 A MAC/Serial only
-B MAC/Serial + One-Time Enrollment Token [DEFAULT]
+B MAC/Serial + One-Time Enrollment Token \[DEFAULT]
 C mTLS / Device Certificate
 ```
 
@@ -1249,10 +1249,10 @@ HTTP/TFTP muss als expliziter Kompatibilitätsmodus möglich bleiben.
 
 Legacy-Modus:
 
-- sichtbar;
-- lokale/definierte Netze bevorzugt;
-- nie als HTTPS-gleichwertig darstellen;
-- Config Encryption nutzen, falls Gerät es unterstützt.
+* sichtbar;
+* lokale/definierte Netze bevorzugt;
+* nie als HTTPS-gleichwertig darstellen;
+* Config Encryption nutzen, falls Gerät es unterstützt.
 
 ## 11.3 Discovery
 
@@ -1312,19 +1312,19 @@ Ein gemeinsames starkes zufälliges Adminpasswort für alle verwalteten Telefone
 
 Pflicht:
 
-- kein Herstellerdefault;
-- im KMS;
-- Anzeige nur nach Step-up;
-- transaktionale Rotation über alle Geräte;
-- pro Gerät Rolloutstatus;
-- HTTPS-Admin bevorzugt;
-- Telnet/SSH/SNMP deaktivieren oder absichern, wenn unnötig.
+* kein Herstellerdefault;
+* im KMS;
+* Anzeige nur nach Step-up;
+* transaktionale Rotation über alle Geräte;
+* pro Gerät Rolloutstatus;
+* HTTPS-Admin bevorzugt;
+* Telnet/SSH/SNMP deaktivieren oder absichern, wenn unnötig.
 
 Trade-off: Kompromittierung eines Geräts kann den Blast Radius auf weitere Geräte erweitern.
 
----
+\---
 
-# 12. Groundwire / Acrobits / Mobile
+# 12\. Groundwire / Acrobits / Mobile
 
 ## 12.1 Betriebsarten
 
@@ -1347,14 +1347,14 @@ PUBLIC/PUSH darf aus dem gesamten Internet erreichbar sein.
 
 Daher zwingend:
 
-- TLS/SRTP;
-- starke Device-Credentials;
-- keine Guest Calls;
-- Auth-/Request-Rate-Limits;
-- per-IP/per-Account Abuse Protection;
-- strikte Kontexttrennung;
-- Audit;
-- Security Dashboard.
+* TLS/SRTP;
+* starke Device-Credentials;
+* keine Guest Calls;
+* Auth-/Request-Rate-Limits;
+* per-IP/per-Account Abuse Protection;
+* strikte Kontexttrennung;
+* Audit;
+* Security Dashboard.
 
 Keine verpflichtende Acrobits-IP-Allowlist.
 
@@ -1366,19 +1366,19 @@ Push wird pro Gerät explizit aktiviert; UI weist auf Acrobits SIPIS als externe
 
 Groundwire bleibt per LAN/VPN/Direct nutzbar. Keine eigene EXTELIO Relay Cloud.
 
----
+\---
 
-# 13. Home-Assistant-Integration
+# 13\. Home-Assistant-Integration
 
 Verbindlich:
 
 ```text
 bidirectional
 single app
-homeassistant_api: true
-hassio_api: false
-docker_api: false
-full_access: false
+homeassistant\_api: true
+hassio\_api: false
+docker\_api: false
+full\_access: false
 ```
 
 Kein Ingress.
@@ -1387,22 +1387,22 @@ HA besitzt eigenen Service Principal.
 
 HA darf operative Allowlist-Aktionen:
 
-- DND;
-- Rufumleitung;
-- Tag/Nacht;
-- Queue Login/Logout;
-- Präsenz;
-- Routing-Profil;
-- definierte Ansage.
+* DND;
+* Rufumleitung;
+* Tag/Nacht;
+* Queue Login/Logout;
+* Präsenz;
+* Routing-Profil;
+* definierte Ansage.
 
 HA darf nicht:
 
-- Secrets lesen;
-- Adminrechte ändern;
-- KMS ändern;
-- Security Mode senken;
-- Benutzer löschen;
-- kritische Netzwerk-/TLS-Sicherheit verändern.
+* Secrets lesen;
+* Adminrechte ändern;
+* KMS ändern;
+* Security Mode senken;
+* Benutzer löschen;
+* kritische Netzwerk-/TLS-Sicherheit verändern.
 
 HA-Ausfall beeinträchtigt Telefonie nicht.
 
@@ -1412,23 +1412,23 @@ HA-Ausfall beeinträchtigt Telefonie nicht.
 
 Erlaubt:
 
-- PBX online;
-- Trunk Health;
-- Anzahl aktiver Gespräche;
-- aggregierte Systemzustände;
-- nicht-personenbezogene Queue-/Integrationszustände.
+* PBX online;
+* Trunk Health;
+* Anzahl aktiver Gespräche;
+* aggregierte Systemzustände;
+* nicht-personenbezogene Queue-/Integrationszustände.
 
 Nicht erlaubt:
 
-- Rufnummern;
-- Namen;
-- personenbezogene Extensions;
-- personenbezogene Call IDs/CDR;
-- Voicemail-/Recording-Inhalte.
+* Rufnummern;
+* Namen;
+* personenbezogene Extensions;
+* personenbezogene Call IDs/CDR;
+* Voicemail-/Recording-Inhalte.
 
----
+\---
 
-# 14. Privacy, Recording, Voicemail & Audit
+# 14\. Privacy, Recording, Voicemail \& Audit
 
 ## 14.1 Retention
 
@@ -1462,12 +1462,12 @@ time/group-based
 
 Pflicht:
 
-- verschlüsselt;
-- RBAC;
-- Playback/Export/Delete auditiert;
-- eigene Retention;
-- Compliance-Hinweis;
-- kein Recordinginhalt in Logs.
+* verschlüsselt;
+* RBAC;
+* Playback/Export/Delete auditiert;
+* eigene Retention;
+* Compliance-Hinweis;
+* kein Recordinginhalt in Logs.
 
 ## 14.3 Voicemail
 
@@ -1504,7 +1504,7 @@ ROTATE
 REVOKE
 DELETE
 EXPORT
-FAILED_ACCESS
+FAILED\_ACCESS
 ```
 
 Nie Secretwerte protokollieren.
@@ -1513,20 +1513,20 @@ Nie Secretwerte protokollieren.
 
 Nie loggen:
 
-- Passwörter;
-- Tokens;
-- TOTP-Seeds;
-- Private Keys;
-- vollständige Authorization Header;
-- Audioinhalte.
+* Passwörter;
+* Tokens;
+* TOTP-Seeds;
+* Private Keys;
+* vollständige Authorization Header;
+* Audioinhalte.
 
 Diagnose-Rufnummern/IPs soweit möglich maskieren/pseudonymisieren.
 
 Privacy Control Center ist Bestandteil der UI.
 
----
+\---
 
-# 15. Backup, Restore & Disaster Recovery
+# 15\. Backup, Restore \& Disaster Recovery
 
 Zwei Backupwege:
 
@@ -1575,14 +1575,14 @@ Portable Backup-Verschlüsselung erlaubt Restore auf neuer Hardware und Re-Seali
 Backup enthält:
 
 ```text
-backup_format_version
-pbx_version
-schema_version
-crypto_version
-domain_schema_version
-compiler_version
-device_catalog_version
-provider_catalog_version
+backup\_format\_version
+pbx\_version
+schema\_version
+crypto\_version
+domain\_schema\_version
+compiler\_version
+device\_catalog\_version
+provider\_catalog\_version
 ```
 
 Migration schrittweise und explizit.
@@ -1601,9 +1601,9 @@ Integrity
 
 Bei relevanter Abweichung: `RECOVERY MODE`.
 
----
+\---
 
-# 16. Release, Supply Chain & Security
+# 16\. Release, Supply Chain \& Security
 
 ## 16.1 Releases
 
@@ -1630,15 +1630,15 @@ Optionale automatische Stable-Security-Updates im Wartungsfenster.
 
 Jedes Stable Release:
 
-- OCI Digests;
-- CycloneDX 1.7 SBOM;
-- GitHub Artifact Attestation;
-- Cosign Signature;
-- SLSA-orientierte Provenance;
-- Test Summary;
-- Security Scan Summary;
-- Migration Notes;
-- Compliance Summary.
+* OCI Digests;
+* CycloneDX 1.7 SBOM;
+* GitHub Artifact Attestation;
+* Cosign Signature;
+* SLSA-orientierte Provenance;
+* Test Summary;
+* Security Scan Summary;
+* Migration Notes;
+* Compliance Summary.
 
 ## 16.3 Dependency Security
 
@@ -1670,13 +1670,13 @@ Level 2 vollständig
 
 Defense in Depth:
 
-- AppArmor;
-- minimale Capabilities;
-- getrennte Unix IDs;
-- restriktive Dateirechte;
-- tmpfs für Secrets;
-- kein Docker Socket;
-- kein NET_ADMIN/SYS_ADMIN.
+* AppArmor;
+* minimale Capabilities;
+* getrennte Unix IDs;
+* restriktive Dateirechte;
+* tmpfs für Secrets;
+* kein Docker Socket;
+* kein NET\_ADMIN/SYS\_ADMIN.
 
 ## 16.5 Abuse Protection
 
@@ -1697,21 +1697,21 @@ Reaktionen:
 ALLOW
 DELAY
 THROTTLE
-TEMP_BLOCK
+TEMP\_BLOCK
 ```
 
 ## 16.6 Testing
 
 Pflicht:
 
-- Unit;
-- Integration;
-- Contract;
-- Negative Tests;
-- Trust-Boundary Fuzzing;
-- SIP Black-Box/adversarial Tests;
-- Backup/Restore;
-- Security Regression Tests.
+* Unit;
+* Integration;
+* Contract;
+* Negative Tests;
+* Trust-Boundary Fuzzing;
+* SIP Black-Box/adversarial Tests;
+* Backup/Restore;
+* Security Regression Tests.
 
 Vor 1.0 Stable: unabhängiger Penetrationstest.
 
@@ -1728,9 +1728,9 @@ Root Cause Analysis
 Regression Test
 ```
 
----
+\---
 
-# 17. Compliance Evidence
+# 17\. Compliance Evidence
 
 Zentrale Matrix:
 
@@ -1758,9 +1758,9 @@ Regel:
 Öffentlich pro Stable Release: Compliance Summary.  
 Vollständige Evidence Matrix: projektintern.
 
----
+\---
 
-# 18. Monitoring, Health & Self-Healing
+# 18\. Monitoring, Health \& Self-Healing
 
 Health States:
 
@@ -1769,27 +1769,27 @@ HEALTHY
 DEGRADED
 UNHEALTHY
 RECOVERY
-UNSAFE_OVERRIDE_ACTIVE
+UNSAFE\_OVERRIDE\_ACTIVE
 MAINTENANCE
 ```
 
 Pflichtchecks mindestens:
 
-- pbx-web;
-- pbx-core;
-- pbx-worker;
-- Secret Broker;
-- SQLite;
-- KMS;
-- FreeSWITCH;
-- Sofia LOCAL/PUBLIC/TRUNK;
-- XML Adapter;
-- TLS/Certificates;
-- Media Store;
-- Storage;
-- Audit Ledger;
-- Backup Status;
-- HA Integration.
+* pbx-web;
+* pbx-core;
+* pbx-worker;
+* Secret Broker;
+* SQLite;
+* KMS;
+* FreeSWITCH;
+* Sofia LOCAL/PUBLIC/TRUNK;
+* XML Adapter;
+* TLS/Certificates;
+* Media Store;
+* Storage;
+* Audit Ledger;
+* Backup Status;
+* HA Integration.
 
 Defaultwarnungen:
 
@@ -1805,12 +1805,12 @@ certificate <=30d = Warning
 
 Kontrolliert und begrenzt:
 
-- Worker restart;
-- ESL reconnect;
-- XML adapter recovery;
-- Trunk re-registration;
-- letzte valide Config Generation;
-- Outbox retry.
+* Worker restart;
+* ESL reconnect;
+* XML adapter recovery;
+* Trunk re-registration;
+* letzte valide Config Generation;
+* Outbox retry.
 
 Kein automatisches Ändern des fachlichen Desired State.
 
@@ -1826,14 +1826,14 @@ technical detail
 -> explicit warning
 -> required reason
 -> audit
--> UNSAFE_OVERRIDE_ACTIVE
+-> UNSAFE\_OVERRIDE\_ACTIVE
 ```
 
 Nicht übersteuerbar sind technisch nicht ausführbare Zustände, z. B. unlesbare DB, nicht entschlüsselbare erforderliche Secrets oder unmögliche Socket-Bindings.
 
----
+\---
 
-# 19. Home-Assistant-App-Konfiguration
+# 19\. Home-Assistant-App-Konfiguration
 
 Zielzustand:
 
@@ -1846,11 +1846,11 @@ arch:
 startup: services
 boot: auto
 init: false
-host_network: true
-homeassistant_api: true
-hassio_api: false
-docker_api: false
-full_access: false
+host\_network: true
+homeassistant\_api: true
+hassio\_api: false
+docker\_api: false
+full\_access: false
 ingress: false
 tmpfs: true
 backup: hot
@@ -1866,32 +1866,32 @@ Custom AppArmor ist Pflicht.
 Mindestens:
 
 ```text
-web_mode
-web_http_port
-web_https_port
+web\_mode
+web\_http\_port
+web\_https\_port
 
-sip_bind_mode
-sip_bind_ip
+sip\_bind\_mode
+sip\_bind\_ip
 
-local_sip_port
-local_sips_port
-public_sip_port
-public_sips_port
-trunk_sip_port
-trunk_sips_port
+local\_sip\_port
+local\_sips\_port
+public\_sip\_port
+public\_sips\_port
+trunk\_sip\_port
+trunk\_sips\_port
 
-rtp_start_port
-rtp_end_port
+rtp\_start\_port
+rtp\_end\_port
 
-ipv6_enabled
-public_push_enabled
+ipv6\_enabled
+public\_push\_enabled
 ```
 
 Keine langfristigen Secrets in `options.json`.
 
----
+\---
 
-# 20. First Boot
+# 20\. First Boot
 
 Ablauf:
 
@@ -1918,9 +1918,9 @@ Keine Default-Credentials.
 
 Certbot/DNS-API-Secrets werden erst nach KMS-Initialisierung gespeichert.
 
----
+\---
 
-# 21. Service- und Recovery-Runbook
+# 21\. Service- und Recovery-Runbook
 
 Startabhängigkeiten:
 
@@ -1935,20 +1935,20 @@ pbx-bootstrap
 
 Recovery Mode aktiv:
 
-- UI;
-- DB-/Migration-Diagnose;
-- KMS;
-- Config Compiler;
-- Audit/Health;
-- Backup/Restore.
+* UI;
+* DB-/Migration-Diagnose;
+* KMS;
+* Config Compiler;
+* Audit/Health;
+* Backup/Restore.
 
 Recovery Mode standardmäßig aus:
 
-- Trunk Registration;
-- Outbound Calls;
-- PUBLIC/PUSH;
-- Auto Provisioning;
-- produktive Auto-Aktivierung.
+* Trunk Registration;
+* Outbound Calls;
+* PUBLIC/PUSH;
+* Auto Provisioning;
+* produktive Auto-Aktivierung.
 
 Pflicht-Runbooks:
 
@@ -1969,7 +1969,7 @@ Pflicht-Runbooks:
 15. shared device-admin credential compromise
 16. catalog corruption
 17. failed update/rollback
-18. `UNSAFE_OVERRIDE_ACTIVE`
+18. `UNSAFE\_OVERRIDE\_ACTIVE`
 
 Je Runbook:
 
@@ -1984,27 +1984,27 @@ Rollback
 Audit/Evidence
 ```
 
----
+\---
 
-# 22. Repository und Build
+# 22\. Repository und Build
 
 ## 22.1 Architektur-Freeze Baseline
 
-| Komponente | Baseline |
-|---|---|
-| HA Base | Alpine 3.24 / docker-base 2026.08.0 |
-| Arch | amd64, aarch64 |
-| Rust | 1.98.1 stable |
-| Backend | Axum, exakte Version via Cargo.lock |
-| Node | 24.21.0 LTS |
-| Frontend | React + TypeScript strict |
-| FreeSWITCH | 1.11.3 |
-| s6 | aus HA Base |
-| Certbot | 5.7.0 |
-| DB | SQLite + WAL |
-| AEAD | AES-256-GCM |
-| SBOM | CycloneDX 1.7 |
-| Release | Stable only |
+|Komponente|Baseline|
+|-|-|
+|HA Base|Alpine 3.24 / docker-base 2026.08.0|
+|Arch|amd64, aarch64|
+|Rust|1.98.1 stable|
+|Backend|Axum, exakte Version via Cargo.lock|
+|Node|24.21.0 LTS|
+|Frontend|React + TypeScript strict|
+|FreeSWITCH|1.11.3|
+|s6|aus HA Base|
+|Certbot|5.7.0|
+|DB|SQLite + WAL|
+|AEAD|AES-256-GCM|
+|SBOM|CycloneDX 1.7|
+|Release|Stable only|
 
 HA Base Digests:
 
@@ -2029,9 +2029,9 @@ extelio-repository/
 ├── LICENSE
 ├── SECURITY.md
 ├── docs/
-│   ├── EXTELIO_IMPLEMENTIERUNGSSPEZIFIKATION.md
+│   ├── EXTELIO\_IMPLEMENTIERUNGSSPEZIFIKATION.md
 │   └── design/
-│       └── EXTELIO_BRANDBOARD.png
+│       └── EXTELIO\_BRANDBOARD.png
 ├── .github/
 │   └── workflows/
 │       ├── quality.yml
@@ -2100,27 +2100,27 @@ Runtime enthält nur erforderliche Runtime-Artefakte.
 Mindestens evaluieren/pinnen:
 
 ```text
-mod_sofia
-mod_event_socket
-mod_xml_curl
-mod_commands
-mod_dptools
-mod_db
-mod_hash
-mod_loopback
-mod_tone_stream
-mod_sndfile
-mod_voicemail
-mod_callcenter
-mod_opus
+mod\_sofia
+mod\_event\_socket
+mod\_xml\_curl
+mod\_commands
+mod\_dptools
+mod\_db
+mod\_hash
+mod\_loopback
+mod\_tone\_stream
+mod\_sndfile
+mod\_voicemail
+mod\_callcenter
+mod\_opus
 ```
 
 Nicht standardmäßig:
 
 ```text
-mod_xml_rpc
-mod_verto
-mod_rtmp
+mod\_xml\_rpc
+mod\_verto
+mod\_rtmp
 unnötige Script Engines
 Debug/Demo Module
 unnötige Netzwerkdienste
@@ -2131,7 +2131,7 @@ unnötige Netzwerkdienste
 ```text
 /data/
 ├── db/pbx.sqlite3
-├── config/generation-*/
+├── config/generation-\*/
 ├── config/current
 ├── media/sha256/
 ├── audit/
@@ -2145,14 +2145,14 @@ unnötige Netzwerkdienste
 
 Temporäre Secrets nur tmpfs-basiert unter `/run`/`/tmp`.
 
----
+\---
 
-# 23. Rebuild und Release Gate
+# 23\. Rebuild und Release Gate
 
 Lokaler/CI-Kernpfad:
 
 ```bash
-git clone <CANONICAL_REPOSITORY_URL>
+git clone <CANONICAL\_REPOSITORY\_URL>
 cd extelio-repository/extelio
 
 ./scripts/verify-locks.sh
@@ -2205,24 +2205,24 @@ Release Notes
 Reproducibility States:
 
 ```text
-ARCHITECTURE_COMPLETE
-IMPLEMENTATION_LOCK_PENDING
+ARCHITECTURE\_COMPLETE
+IMPLEMENTATION\_LOCK\_PENDING
 REPRODUCIBLE
-REPRODUCIBILITY_FAILED
+REPRODUCIBILITY\_FAILED
 ```
 
 Aktuell:
 
 ```text
-ARCHITECTURE_COMPLETE
-IMPLEMENTATION_LOCK_PENDING
+ARCHITECTURE\_COMPLETE
+IMPLEMENTATION\_LOCK\_PENDING
 ```
 
 `REPRODUCIBLE` erst wenn reales Repository, Lockfiles, Digests, Clean Builds für amd64/aarch64, Restore-Test, SBOM/Provenance/Signatur und Compliance Evidence erfolgreich vorliegen.
 
----
+\---
 
-# 24. Definition of Done für die erste lauffähige Version
+# 24\. Definition of Done für die erste lauffähige Version
 
 Die erste implementierbare EXTELIO-Version gilt technisch als erreicht, wenn mindestens:
 
@@ -2247,36 +2247,37 @@ Die erste implementierbare EXTELIO-Version gilt technisch als erreicht, wenn min
 19. CI erzeugt Tests, SBOM, Scans, Provenance/Attestation/Signatur.
 20. Compliance-Matrix enthält für implementierte Controls Evidence.
 
----
+\---
 
-# 25. Kanonische Design-/Projektartefakte
+# 25\. Kanonische Design-/Projektartefakte
 
 Diese Spezifikation enthält den finalen Zustand. Zusätzlich gehören zum Projekt:
 
 ```text
-EXTELIO_IMPLEMENTIERUNGSSPEZIFIKATION.md
-EXTELIO_BRANDBOARD.png
+EXTELIO\_IMPLEMENTIERUNGSSPEZIFIKATION.md
+EXTELIO\_BRANDBOARD.png
 ```
 
 Die historische Entscheidungsfassung bleibt archiviert, ist aber **nicht** mehr Implementierungs-Source-of-Truth.
 
----
+\---
 
-# 26. Änderungsregel
+# 26\. Änderungsregel
 
 Neue technische Einzelentscheidungen sind keine Nutzerabstimmung, solange sie den hier definierten Zustand nicht ändern.
 
 Eine neue Architekturentscheidung ist nur erforderlich, wenn eine Änderung mindestens einen dieser Punkte verändert:
 
-- Trust Boundary;
-- Datenmodell;
-- Security-/Privacy-Garantie;
-- externe Schnittstelle;
-- Installations-/Recovery-Modell;
-- wesentliche Nutzerfunktion;
-- Interoperabilität;
-- schwer reversible Technologieentscheidung.
+* Trust Boundary;
+* Datenmodell;
+* Security-/Privacy-Garantie;
+* externe Schnittstelle;
+* Installations-/Recovery-Modell;
+* wesentliche Nutzerfunktion;
+* Interoperabilität;
+* schwer reversible Technologieentscheidung.
 
 Ansonsten gilt:
 
 > Implementieren, testen, dokumentieren – keine künstliche Entscheidungsrunde.
+
