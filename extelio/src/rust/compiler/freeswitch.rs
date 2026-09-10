@@ -486,7 +486,7 @@ mod tests {
     fn esl_never_uses_the_default_password() {
         let out = event_socket_conf(&sample(), "sec_esl");
         let forbidden = ["Clue", "Con"].concat();
-	assert!(!out.contains(&forbidden), "Kapitel 5.6");
+        assert!(!out.contains(&forbidden), "Kapitel 5.6");
         assert!(out.contains("127.0.0.1"));
         assert!(out.contains("{{secret:sec_esl}}"));
     }
