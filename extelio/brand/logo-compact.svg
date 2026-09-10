@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- EXTELIO Compact Logo - fuer schmale Navigation und kleine Flaechen -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 148 40" width="148" height="40" role="img" aria-label="EXTELIO">
+  <title>EXTELIO</title>
+  <g fill="none" stroke="#2864DC" stroke-width="2.4" stroke-linecap="round">
+    <rect x="1.8" y="1.8" width="36.4" height="36.4" rx="10"/>
+    <path d="M11 13h18M11 20h12M11 27h18"/>
+  </g>
+  <circle cx="27" cy="20" r="3" fill="#2864DC"/>
+  <text x="50" y="27"
+        font-family="Inter, Geist, -apple-system, Segoe UI, Roboto, sans-serif"
+        font-size="18" font-weight="600" letter-spacing="2.4" fill="#111827">EXTELIO</text>
+</svg>

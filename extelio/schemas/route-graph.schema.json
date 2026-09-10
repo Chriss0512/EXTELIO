@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://extelio.local/schemas/route-graph.schema.json",
+  "title": "EXTELIO Route Graph",
+  "description": "Typisierter Routing-Graph (Kapitel 8.4, 2.14). Kein Raw-Dialplan.",
+  "type": "object",
+  "required": ["nodes", "edges"],
+  "additionalProperties": false,
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/node" }
+    },
+    "edges": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/edge" }
+    }
+  },
+  "$defs": {
+    "node": {
+      "type": "object",
+      "required": ["id", "kind"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": {
+          "enum": [
+            "incoming_number", "schedule", "extension", "ring_group", "queue",
+            "ivr", "announcement", "voicemail", "external_number", "condition",
+            "fallback", "end"
+          ]
+        },
+        "label": { "type": "string" },
+        "ref_id": { "type": ["string", "null"] },
+        "params": { "type": "object" },
+        "x": { "type": "number" },
+        "y": { "type": "number" }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "required": ["from", "to"],
+      "additionalProperties": false,
+      "properties": {
+        "from": { "type": "string" },
+        "to": { "type": "string" },
+        "port": { "type": "string", "default": "next" }
+      }
+    }
+  }
+}

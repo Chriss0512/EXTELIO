@@ -1,0 +1,53 @@
+[package]
+name = "extelio"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.98"
+description = "EXTELIO - Software-defined Communications"
+license = "Apache-2.0"
+publish = false
+
+[lib]
+name = "extelio"
+path = "src/rust/lib.rs"
+
+[[bin]]
+name = "extelio-bootstrap"
+path = "src/rust/bin/bootstrap.rs"
+
+[[bin]]
+name = "extelio-secret-broker"
+path = "src/rust/bin/secret_broker.rs"
+
+[[bin]]
+name = "extelio-web"
+path = "src/rust/bin/web.rs"
+
+[[bin]]
+name = "extelio-worker"
+path = "src/rust/bin/worker.rs"
+
+[dependencies]
+axum = { version = "0.8", default-features = false, features = ["http1", "json", "query", "tokio"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "signal", "time", "io-util", "fs", "sync"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+rusqlite = { version = "0.32", features = ["bundled"] }
+argon2 = "0.5"
+rand = "0.8"
+aes-gcm = "0.10"
+hmac = "0.12"
+sha1 = "0.10"
+sha2 = "0.10"
+data-encoding = "2"
+uuid = { version = "1", features = ["v7"] }
+time = { version = "0.3", features = ["formatting", "parsing", "macros"] }
+zeroize = { version = "1", features = ["zeroize_derive"] }
+subtle = "2"
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

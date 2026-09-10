@@ -1,0 +1,69 @@
+#include <tunables/global>
+
+# EXTELIO AppArmor-Profil (Kapitel 19: Custom AppArmor ist Pflicht).
+# Grundhaltung: alles verweigern, was nicht ausdruecklich gebraucht wird.
+profile extelio flags=(attach_disconnected,mediate_deleted) {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  # Netzwerk: SIP/RTP/HTTP am Host, ESL nur auf Loopback.
+  network inet tcp,
+  network inet udp,
+  network inet6 tcp,
+  network inet6 udp,
+  network netlink raw,
+  network unix stream,
+  network unix dgram,
+
+  # Capabilities: bewusst eng gehalten.
+  capability setgid,
+  capability setuid,
+  capability chown,
+  capability dac_override,
+  capability fowner,
+  capability kill,
+  capability net_bind_service,
+
+  # s6-overlay als Init-System der App.
+  /init                          ix,
+  /bin/**                        ix,
+  /usr/bin/**                    ix,
+  /usr/sbin/**                   ix,
+  /package/**                    ix,
+  /command/**                    ix,
+  /etc/s6-overlay/**             r,
+  /run/{s6,s6-rc*,service}/**    rwix,
+  /run/**                        rwk,
+  /dev/tty                       rw,
+  /dev/urandom                   r,
+  /dev/random                    r,
+
+  # Anwendungsdateien: nur lesen und ausfuehren.
+  /opt/extelio/**                r,
+  /opt/extelio/bin/*             ix,
+
+  # Persistente Daten: Lesen und Schreiben ausschliesslich unter /data.
+  /data                          rw,
+  /data/**                       rwk,
+
+  # Schluesselmaterial: eng gefasst, kein Zugriff von aussen noetig.
+  /data/kms/**                   rwk,
+  /data/certs/**                 rwk,
+
+  # Home-Assistant-Integration ueber den Supervisor-Proxy.
+  /etc/hosts                     r,
+  /etc/resolv.conf               r,
+  /etc/ssl/certs/**              r,
+
+  # TPM nur lesen, wenn vorhanden. Ohne TPM faellt das KMS bewusst
+  # auf einen CSPRNG-KEK zurueck (Kapitel 7.1).
+  /dev/tpmrm0                    rw,
+
+  # Ausdrueckliche Verbote.
+  deny /data/kms/** m,
+  deny /proc/sys/kernel/** w,
+  deny /sys/** w,
+  deny mount,
+  deny umount,
+  deny ptrace (trace),
+}

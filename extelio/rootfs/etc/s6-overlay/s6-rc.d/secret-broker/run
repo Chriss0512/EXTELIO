@@ -1,0 +1,3 @@
+#!/command/with-contenv sh
+# Secret Broker (Kapitel 7.4). Startet nach pbx-bootstrap.
+exec /opt/extelio/bin/extelio-secret-broker

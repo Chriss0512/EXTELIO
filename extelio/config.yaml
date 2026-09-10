@@ -1,0 +1,98 @@
+# EXTELIO - Home-Assistant-App-Konfiguration (Kapitel 19)
+#
+# Genau eine App. Kein Ingress: EXTELIO bringt eine eigene Weboberflaeche mit
+# eigener Authentifizierung mit (Kapitel 1, 5.3).
+# host_network ist Pflicht, weil SIP und RTP direkt am Host anliegen muessen.
+name: EXTELIO
+slug: extelio
+version: "0.1.0"
+description: >-
+  Software-defined Communications. Telefonanlage mit eigener Weboberflaeche,
+  typisiertem Routing, verschluesselter Secret-Verwaltung und
+  nachvollziehbarem Sicherheitsprotokoll.
+url: https://github.com/cd-faust/extelio-repository
+arch:
+  - amd64
+  - aarch64
+startup: services
+boot: auto
+init: false
+host_network: true
+homeassistant_api: true
+hassio_api: false
+docker_api: false
+full_access: false
+ingress: false
+tmpfs: true
+backup: hot
+stage: stable
+apparmor: true
+
+# Kapitel 5.2: Ports sind frei konfigurierbar; Konflikte werden beim Start
+# validiert. Die Angaben hier dienen der Anzeige in Home Assistant.
+ports:
+  8099/tcp: 8099
+  8449/tcp: null
+  5060/udp: 5060
+  5061/tcp: 5061
+  5080/udp: null
+  5081/tcp: null
+  5090/udp: 5090
+  5091/tcp: 5091
+ports_description:
+  8099/tcp: Weboberflaeche (HTTP)
+  8449/tcp: Weboberflaeche (HTTPS)
+  5060/udp: SIP LOCAL
+  5061/tcp: SIPS LOCAL
+  5080/udp: SIP PUBLIC/PUSH (standardmaessig aus)
+  5081/tcp: SIPS PUBLIC/PUSH (standardmaessig aus)
+  5090/udp: SIP TRUNK
+  5091/tcp: SIPS TRUNK
+
+map:
+  - addon_config:rw
+  - share:rw
+  - backup:rw
+
+# Kapitel 19.1: Bootstrap Options. Keine langfristigen Secrets - diese liegen
+# ausschliesslich im KMS (Kapitel 7).
+options:
+  web_mode: http_only
+  web_http_port: 8099
+  web_https_port: 8449
+  canonical_hostname: ""
+  trusted_proxies: []
+  sip_bind_mode: single
+  sip_bind_ip: "0.0.0.0"
+  local_sip_port: 5060
+  local_sips_port: 5061
+  public_sip_port: 5080
+  public_sips_port: 5081
+  trunk_sip_port: 5090
+  trunk_sips_port: 5091
+  rtp_start_port: 16384
+  rtp_end_port: 32768
+  ipv6_enabled: false
+  public_push_enabled: false
+  log_level: info
+
+schema:
+  web_mode: list(https_only|http_only|http_https|http_behind_proxy)
+  web_http_port: port
+  web_https_port: port
+  canonical_hostname: str?
+  trusted_proxies:
+    - str
+  sip_bind_mode: list(single|per_profile)
+  sip_bind_ip: str
+  local_sip_port: port
+  local_sips_port: port
+  public_sip_port: port
+  public_sips_port: port
+  trunk_sip_port: port
+  trunk_sips_port: port
+  rtp_start_port: port
+  rtp_end_port: port
+  ipv6_enabled: bool
+  public_push_enabled: bool
+  log_level: list(debug|info|warn|error)

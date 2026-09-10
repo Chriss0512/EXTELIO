@@ -1,0 +1,76 @@
+/* EXTELIO Design Tokens - Kapitel 2.5, 2.6, 2.8
+ * Light Mode ist die primaere Designreferenz; Dark Mode leitet sich aus
+ * denselben semantischen Tokens ab.
+ * Regel Kapitel 2.5: 85-90 % der Flaeche sind neutral, Blau ist Akzent.
+ */
+
+:root {
+  /* Markenfarben */
+  --ext-blue: #2864dc;
+  --ext-blue-bright: #3b82f6;
+  --ext-ink: #111827;
+  --ext-graphite: #232934;
+  --ext-slate: #667085;
+  --ext-border-color: #e4e7ec;
+  --ext-canvas: #f6f7f9;
+  --ext-surface-color: #ffffff;
+
+  /* Funktionaler Status */
+  --ext-success: #22c55e;
+  --ext-warning: #f59e0b;
+  --ext-critical: #ef4444;
+  --ext-info: #3b82f6;
+
+  /* Semantische Tokens (Light) */
+  --bg: var(--ext-canvas);
+  --surface: var(--ext-surface-color);
+  --surface-2: #fbfcfd;
+  --text: var(--ext-ink);
+  --text-secondary: var(--ext-slate);
+  --border: var(--ext-border-color);
+  --border-strong: #d0d5dd;
+  --accent: var(--ext-blue);
+  --accent-hover: var(--ext-blue-bright);
+  --accent-soft: #eef3fd;
+  --control-text: #344054;
+  --nav-bg: var(--ext-surface-color);
+  --shadow-panel: 0 1px 2px rgba(16, 24, 40, 0.04);
+
+  /* Spacing Grid */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+
+  /* Geometrie */
+  --radius: 8px;
+  --radius-panel: 12px;
+  --radius-button: 8px;
+  --radius-pill: 999px;
+
+  /* Layout */
+  --nav-width: 244px;
+  --topbar-height: 56px;
+  --detail-width: 420px;
+}
+
+[data-theme="dark"] {
+  --bg: #111827;
+  --surface: #232934;
+  --surface-2: #2d3440;
+  --text: #f9fafb;
+  --text-secondary: #98a2b3;
+  --border: #374151;
+  --border-strong: #475467;
+  --accent: #3b82f6;
+  --accent-hover: #60a5fa;
+  --accent-soft: #1e2a45;
+  --control-text: #e5e7eb;
+  --nav-bg: #232934;
+  --shadow-panel: none;
+}

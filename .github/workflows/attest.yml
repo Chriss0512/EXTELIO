@@ -1,0 +1,42 @@
+name: Attest
+
+on:
+  workflow_run:
+    workflows: [Release]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+  attestations: write
+
+jobs:
+  sbom:
+    name: SBOM und Herkunftsnachweis
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.98.1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.21.0
+
+      - name: SBOMs erzeugen
+        run: extelio/scripts/sbom.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: extelio/dist/sbom-*.cdx.json
+
+      - name: Herkunftsnachweis fuer die SBOMs
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: extelio/dist/sbom-*.cdx.json

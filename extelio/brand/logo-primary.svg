@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- EXTELIO Primary Logo - Kapitel 2.2, 2.7
+     Wortmarke in Versalien, SemiBold, leicht erhoehtes Letterspacing.
+     Die Mark zeigt einen ruhigen Signalpfad mit einem aktiven Knoten;
+     bewusst kein Telefonhoerer als Markensymbol (Kapitel 2.16). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 56" width="260" height="56" role="img" aria-label="EXTELIO">
+  <title>EXTELIO</title>
+  <g fill="none" stroke="#2864DC" stroke-width="3" stroke-linecap="round">
+    <rect x="2.5" y="2.5" width="51" height="51" rx="14" stroke-width="3"/>
+    <path d="M15 18h26M15 28h17M15 38h26"/>
+  </g>
+  <circle cx="38" cy="28" r="4.2" fill="#2864DC"/>
+  <text x="72" y="37"
+        font-family="Inter, Geist, -apple-system, Segoe UI, Roboto, sans-serif"
+        font-size="26" font-weight="600" letter-spacing="3.4" fill="#111827">EXTELIO</text>
+</svg>

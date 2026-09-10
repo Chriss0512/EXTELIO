@@ -1,0 +1,13 @@
+# Rust
+/extelio/target/
+**/*.rs.bk
+
+# Frontend
+/extelio/src/web/node_modules/
+/extelio/src/web/dist/
+
+# Build-Artefakte
+/extelio/dist/
+
+# Lokale Laufzeitdaten
+/extelio/data/

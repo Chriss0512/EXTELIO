@@ -1,0 +1,394 @@
+# Compliance Evidence Matrix (Kapitel 17)
+#
+# Regel: Kein Control gilt als erfuellt, wenn Implementierung und belastbare
+# Verifikation fehlen. Der Status ist deshalb bewusst dreistufig:
+#   implemented  - umgesetzt und automatisiert verifiziert
+#   partial      - umgesetzt, Verifikation noch nicht vollstaendig
+#   open         - noch nicht umgesetzt
+#
+# Responsibility: PRODUCT | OPERATOR | SHARED | NOT_APPLICABLE
+# Compliance-Ziel: certification-ready, nicht "zertifiziert".
+
+meta:
+  product: EXTELIO
+  version: "0.1.0"
+  specification: EXTELIO_IMPLEMENTIERUNGSSPEZIFIKATION.md
+  generated_for: bootstrap release
+
+standards:
+  - id: DSGVO
+    title: Privacy by Design / Privacy by Default
+  - id: ISO25010
+    title: ISO/IEC 25010:2023
+  - id: ISO27001
+    title: ISO/IEC 27001:2022 (organisatorische Referenz)
+  - id: NET41
+    title: BSI IT-Grundschutz NET.4.1 TK-Anlagen
+  - id: NET42
+    title: BSI IT-Grundschutz NET.4.2 VoIP
+  - id: CC2022
+    title: Common Criteria CC:2022 / CEM:2022
+  - id: OWASP-TOP10
+    title: OWASP Top 10
+  - id: ASVS
+    title: OWASP ASVS 5.0.0 Level 2 (+ gezielte Level-3-Anforderungen)
+  - id: SSDF
+    title: NIST SP 800-218 SSDF v1.1
+  - id: RFC3261
+    title: SIP
+  - id: RFC3550
+    title: RTP
+  - id: RFC3711
+    title: SRTP
+  - id: RFC4568
+    title: SDP Security Descriptions
+  - id: RFC5630
+    title: SIPS
+  - id: RFC6238
+    title: TOTP
+
+controls:
+  - id: COMP-REQ-001
+    standard: ASVS
+    requirement_reference: "V2.1 Passwortsicherheit"
+    applicability: applicable
+    responsibility: PRODUCT
+    pbx_requirement: >-
+      Lokale Passwoerter werden mit Argon2id, individuellem Salt und
+      versionierten Parametern gespeichert.
+    architecture_decision: >-
+      Kapitel 6.2. Ein Pepper wird nur bei verfuegbarer Hardware genutzt;
+      es gibt keinen softwarebasierten Ersatz.
+    implementation_component: src/rust/auth/password.rs
+    verification_method: automated_test
+    automated_test_id: auth::password::tests
+    manual_test_id: null
+    evidence: "cargo test auth::password"
+    release_status: implemented
+    exception: null
+
+  - id: COMP-REQ-002
+    standard: RFC6238
+    requirement_reference: "TOTP 6 Ziffern, 30 s, +/-1 Fenster"
+    applicability: applicable
+    responsibility: PRODUCT
+    pbx_requirement: Zweiter Faktor nach RFC 6238 mit Referenzvektoren geprueft.
+    architecture_decision: Kapitel 6.3
+    implementation_component: src/rust/auth/totp.rs
+    verification_method: automated_test
+    automated_test_id: auth::totp::tests::matches_rfc6238_vectors
+    manual_test_id: null
+    evidence: "Testvektoren 287082 / 081804 / 005924 bestanden"
+    release_status: implemented
+    exception: null
+
+  - id: COMP-REQ-003
+    standard: ASVS
+    requirement_reference: "V3 Sitzungsverwaltung"
+    applicability: applicable
+    responsibility: PRODUCT
+    pbx_requirement: >-
+      Serverseitige Sitzungen, opaques Cookie, HttpOnly, SameSite=Strict,
+      Idle- und Absolut-Timeout, Rotation, strikte Trennung HTTP/HTTPS.
+    architecture_decision: Kapitel 6.4
+    implementation_component: src/rust/auth/session.rs
+    verification_method: automated_test
+    automated_test_id: auth::session::tests
+    manual_test_id: null
+    evidence: "Transporttrennung und Rotation testgedeckt"
+    release_status: implemented
+    exception: null
+
+  - id: COMP-REQ-004
+    standard: OWASP-TOP10
+    requirement_reference: "A07 Identifikations- und Authentifizierungsfehler"
+    applicability: applicable
+    responsibility: PRODUCT
+    pbx_requirement: Adaptive Sperren nach Account, IP, Subnetz und Auth-Methode.
+    architecture_decision: >-
+      Kapitel 6.8. Fehlversuche werden in einer eigenen, sofort committeten
+      Transaktion gezaehlt, damit sie nicht mit der Fehlerantwort zurueckrollen.
+    implementation_component: src/rust/auth/ratelimit.rs
+    verification_method: automated_test
+    automated_test_id: brute_force_protection_locks_the_account
+    manual_test_id: null
+    evidence: "Integrationstest erreicht HTTP 429"
+    release_status: implemented
+    exception: null
+
+  - id: COMP-REQ-005
+    standard: DSGVO
+    requirement_reference: "Art. 32 Sicherheit der Verarbeitung"
+    applicability: applicable
+    responsibility: PRODUCT
+    pbx_requirement: >-
+      Secrets liegen ausschliesslich verschluesselt vor; Envelope Encryption
+      mit AES-256-GCM, Rotation und kryptografischer Loeschung.
+    architecture_decision: Kapitel 7.2, 7.5
+    implementation_component: src/rust/kms/mod.rs
+    verification_method: automated_test
+    automated_test_id: kms::tests::store_load_erase_and_rotate
+    manual_test_id: null
+    evidence: "Rewrap erhaelt Klartext, Crypto Erasure macht Secret unlesbar"
+    release_status: implemented
+    exception: null
+
+  - id: COMP-REQ-006
+    standard: ISO27001
+    requirement_reference: "A.8.15 Protokollierung"
+    applicability: applicable
+    responsibility: PRODUCT
+    pbx_requirement: >-
+      Sicherheitsprotokoll als hash-verkettetes, nur anhaengbares Ledger mit
+      periodischen HMAC-Checkpoints.
+    architecture_decision: Kapitel 14.4
+    implementation_component: src/rust/audit/mod.rs
+    verification_method: automated_test
+    automated_test_id: audit::tests::chain_is_verifiable_and_tamper_evident
+    manual_test_id: null
+    evidence: "Manipulation eines Eintrags wird erkannt"
+    release_status: implemented
+    exception: null
+
+  - id: COMP-REQ-007
+    standard: DSGVO
+    requirement_reference: "Art. 5 Abs. 1 lit. c Datenminimierung"
+    applicability: applicable
+    responsibility: PRODUCT
+    pbx_requirement: >-
+      An Home Assistant gehen ausschliesslich nicht-personenbezogene
+      Betriebszustaende.
+    architecture_decision: Kapitel 13.1
+    implementation_component: src/rust/adapters/ha.rs
+    verification_method: automated_test
+    automated_test_id: adapters::ha::tests::rejects_personal_payloads
+    manual_test_id: null
+    evidence: "Jede Nutzlast durchlaeuft assert_non_personal vor dem Versand"
+    release_status: implemented
+    exception: null
+
+  - id: COMP-REQ-008
+    standard: DSGVO
+    requirement_reference: "Art. 5 Abs. 1 lit. e Speicherbegrenzung"
+    applicability: applicable
+    responsibility: SHARED
+    pbx_requirement: >-
+      Zweckgebundene Aufbewahrungsfristen je Datenart, keine unbegrenzte
+      Voreinstellung.
+    architecture_decision: Kapitel 14.1
+    implementation_component: migrations/0002_seed.sql, src/rust/bin/worker.rs
+    verification_method: automated_test
+    automated_test_id: infrastructure::migrations::tests
+    manual_test_id: MAN-RETENTION-01
+    evidence: "Sieben Policies mit endlichen Fristen; Worker wendet sie an"
+    release_status: implemented
+    exception: >-
+      Die fachlich richtige Frist legt der Betreiber fest; das Produkt liefert
+      belastbare Voreinstellungen.
+
+  - id: COMP-REQ-009
+    standard: NET42
+    requirement_reference: "NET.4.2.A12 Sichere Konfiguration der VoIP-Komponenten"
+    applicability: applicable
+    responsibility: PRODUCT
+    pbx_requirement: >-
+      SIP-Profile ohne Guest Calls und ohne blinde Registrierung; PUBLIC/PUSH
+      nur mit SRTP; ACL je Profil.
+    architecture_decision: Kapitel 5.1, 5.4, 9
+    implementation_component: src/rust/compiler/freeswitch.rs, src/rust/compiler/mod.rs
+    verification_method: automated_test
+    automated_test_id: compiler::freeswitch::tests::sofia_profile_is_strict_by_default
+    manual_test_id: MAN-SIP-01
+    evidence: "Validierung lehnt PUBLIC ohne SRTP ab"
+    release_status: implemented
+    exception: null
+
+  - id: COMP-REQ-010
+    standard: NET41
+    requirement_reference: "NET.4.1.A2 Administrationszugang"
+    applicability: applicable
+    responsibility: PRODUCT
+    pbx_requirement: >-
+      Der Event Socket bindet ausschliesslich auf Loopback und verwendet nie
+      das Standardpasswort.
+    architecture_decision: Kapitel 5.6
+    implementation_component: src/rust/compiler/freeswitch.rs
+    verification_method: automated_test
+    automated_test_id: compiler::freeswitch::tests::esl_never_uses_the_default_password
+    manual_test_id: null
+    evidence: "Erzeugte Konfiguration enthaelt nur eine Secret-Referenz"
+    release_status: implemented
+    exception: null
+
+  - id: COMP-REQ-011
+    standard: OWASP-TOP10
+    requirement_reference: "A03 Injection"
+    applicability: applicable
+    responsibility: PRODUCT
+    pbx_requirement: >-
+      FreeSWITCH-XML wird strukturell erzeugt, nie durch String-Verkettung.
+      Datenbankzugriffe erfolgen ausschliesslich parametrisiert.
+    architecture_decision: Kapitel 9
+    implementation_component: src/rust/compiler/xml.rs
+    verification_method: automated_test
+    automated_test_id: compiler::xml::tests::escapes_attribute_injection
+    manual_test_id: null
+    evidence: "Eingeschleuste Attribute werden maskiert"
+    release_status: implemented
+    exception: null
+
+  - id: COMP-REQ-012
+    standard: OWASP-TOP10
+    requirement_reference: "A05 Sicherheitsrelevante Fehlkonfiguration"
+    applicability: applicable
+    responsibility: PRODUCT
+    pbx_requirement: >-
+      Content Security Policy ohne 'unsafe-inline', dazu nosniff, DENY fuer
+      Frames und eine restriktive Referrer-Policy.
+    architecture_decision: Kapitel 12
+    implementation_component: src/rust/application/http.rs, src/web
+    verification_method: automated_test
+    automated_test_id: full_first_boot_and_configuration_flow
+    manual_test_id: null
+    evidence: "Build erzeugt keine Inline-Styles oder Inline-Skripte"
+    release_status: implemented
+    exception: null
+
+  - id: COMP-REQ-013
+    standard: ISO25010
+    requirement_reference: "Wiederherstellbarkeit"
+    applicability: applicable
+    responsibility: SHARED
+    pbx_requirement: >-
+      Anwendungskonsistentes Hot Backup mit Publish Freeze, verschluesseltem
+      Archiv und Pruefung vor dem Einspielen.
+    architecture_decision: Kapitel 15
+    implementation_component: src/rust/backup/mod.rs
+    verification_method: automated_test
+    automated_test_id: backup::tests::hot_backup_roundtrip
+    manual_test_id: MAN-RESTORE-01
+    evidence: "Backup ist verschluesselt; Restore stellt den Stand wieder her"
+    release_status: implemented
+    exception: >-
+      Die Aufbewahrung der Sicherungen ausserhalb des Systems liegt beim
+      Betreiber.
+
+  - id: COMP-REQ-014
+    standard: ISO25010
+    requirement_reference: "Aenderbarkeit und Nachvollziehbarkeit"
+    applicability: applicable
+    responsibility: PRODUCT
+    pbx_requirement: >-
+      Konfigurationsgenerationen sind unveraenderlich, gehasht, aktivierbar und
+      rueckrollbar; Abweichungen werden erkannt.
+    architecture_decision: Kapitel 8.8, 9.2, 9.3
+    implementation_component: src/rust/compiler/mod.rs
+    verification_method: automated_test
+    automated_test_id: compiler::tests::compiles_activates_and_rolls_back
+    manual_test_id: null
+    evidence: "Rollback stellt die vorherige Generation her; Drift wird erkannt"
+    release_status: implemented
+    exception: null
+
+  - id: COMP-REQ-015
+    standard: ISO25010
+    requirement_reference: "Verfuegbarkeit und Fehlertoleranz"
+    applicability: applicable
+    responsibility: PRODUCT
+    pbx_requirement: >-
+      Pflichtpruefungen fuer alle Kernkomponenten mit definierten Schwellwerten
+      fuer Speicher und Zertifikate.
+    architecture_decision: Kapitel 18
+    implementation_component: src/rust/health/mod.rs
+    verification_method: automated_test
+    automated_test_id: health::tests::collect_runs_all_mandatory_checks
+    manual_test_id: null
+    evidence: "Alle Pflichtpruefungen sind im Report enthalten"
+    release_status: implemented
+    exception: null
+
+  - id: COMP-REQ-016
+    standard: SSDF
+    requirement_reference: "PS.3 Herkunft der Artefakte nachweisen"
+    applicability: applicable
+    responsibility: PRODUCT
+    pbx_requirement: SBOM und Herkunftsnachweis je Release.
+    architecture_decision: Kapitel 16, 22.1
+    implementation_component: .github/workflows/attest.yml, scripts/sbom.sh
+    verification_method: pipeline
+    automated_test_id: null
+    manual_test_id: null
+    evidence: "CycloneDX-SBOM und Attestierung im Release-Workflow"
+    release_status: partial
+    exception: >-
+      Die Signatur benoetigt die Release-Identitaet des Betreibers und ist
+      deshalb erst in der Veroeffentlichungspipeline vollstaendig.
+
+  - id: COMP-REQ-017
+    standard: ASVS
+    requirement_reference: "V2.2.4 Mehrfaktor-Authentifizierung (Level 3)"
+    applicability: applicable
+    responsibility: PRODUCT
+    pbx_requirement: >-
+      Passkey/WebAuthn als bevorzugtes Anmeldeverfahren, Passwort und TOTP als
+      Rueckfallweg.
+    architecture_decision: Kapitel 6.1
+    implementation_component: src/rust/auth
+    verification_method: automated_test
+    automated_test_id: null
+    manual_test_id: MAN-PASSKEY-01
+    evidence: null
+    release_status: open
+    exception: >-
+      WebAuthn setzt einen sicheren Kontext mit festem Hostnamen voraus. Der
+      Rueckfallweg Passwort und TOTP ist vollstaendig umgesetzt und
+      verpflichtend; Passkeys folgen mit der TLS-Einrichtung.
+
+  - id: COMP-REQ-018
+    standard: RFC3711
+    requirement_reference: "SRTP fuer Mediensicherheit"
+    applicability: applicable
+    responsibility: PRODUCT
+    pbx_requirement: SRTP verpflichtend fuer PUBLIC/PUSH im Modus STRICT.
+    architecture_decision: Kapitel 5.4
+    implementation_component: src/rust/compiler/freeswitch.rs
+    verification_method: automated_test
+    automated_test_id: compiler::tests
+    manual_test_id: MAN-SRTP-01
+    evidence: "Konfiguration setzt rtp-secure-media auf mandatory"
+    release_status: partial
+    exception: >-
+      Die Wirksamkeit im Gespraech ist erst mit aktivem Telefonie-Core
+      nachweisbar.
+
+  - id: COMP-REQ-019
+    standard: CC2022
+    requirement_reference: "FPT_STM Verlaessliche Zeitstempel"
+    applicability: applicable
+    responsibility: SHARED
+    pbx_requirement: Alle persistierten Zeitstempel sind RFC 3339 in UTC.
+    architecture_decision: Kapitel 14.4
+    implementation_component: src/rust/infrastructure/time.rs
+    verification_method: code_review
+    automated_test_id: null
+    manual_test_id: MAN-TIME-01
+    evidence: "Einheitliche Zeitquelle im gesamten Code"
+    release_status: implemented
+    exception: >-
+      Die Zeitsynchronisation des Hosts verantwortet der Betreiber.
+
+  - id: COMP-REQ-020
+    standard: NET41
+    requirement_reference: "NET.4.1.A9 Notfallvorsorge"
+    applicability: applicable
+    responsibility: OPERATOR
+    pbx_requirement: Dokumentierte Runbooks fuer die sechs Pflichtszenarien.
+    architecture_decision: Kapitel 21
+    implementation_component: DOCS.md
+    verification_method: documentation
+    automated_test_id: null
+    manual_test_id: MAN-RUNBOOK-01
+    evidence: "Runbooks in der Betriebsdokumentation"
+    release_status: implemented
+    exception: >-
+      Die Uebung der Runbooks liegt beim Betreiber.

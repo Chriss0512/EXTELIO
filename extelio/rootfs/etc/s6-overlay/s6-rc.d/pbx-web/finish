@@ -1,0 +1,6 @@
+#!/command/with-contenv sh
+# Faellt die Weboberflaeche aus, wird die App beendet und von Home Assistant
+# neu gestartet. Ein stiller Weiterbetrieb ohne Bedienoberflaeche waere
+# schlechter als ein sichtbarer Neustart.
+echo "pbx-web beendet mit Code $1"
+exec /run/s6/basedir/bin/halt

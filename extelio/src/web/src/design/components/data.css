@@ -1,0 +1,160 @@
+/* Tabellen, Karten, Detailpanel, Flow Nodes - Kapitel 2.11, 2.12, 2.14, 2.17 */
+
+.table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-panel);
+  overflow: hidden;
+}
+
+.table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+
+.table thead th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.table tbody td {
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.table tbody tr:last-child td { border-bottom: 0; }
+.table tbody tr { cursor: pointer; }
+.table tbody tr:hover { background: var(--bg); }
+.table tbody tr[data-selected="true"] { background: var(--accent-soft); }
+
+.cell-strong { font-weight: 600; }
+.cell-muted { color: var(--text-secondary); }
+.cell-right { text-align: right; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 2px var(--sp-3);
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.badge-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+
+.badge[data-tone="success"] { color: #15803d; background: #f0fdf4; border-color: #bbf7d0; }
+.badge[data-tone="warning"] { color: #b45309; background: #fffbeb; border-color: #fde68a; }
+.badge[data-tone="critical"] { color: #b91c1c; background: #fef2f2; border-color: #fecaca; }
+.badge[data-tone="info"] { color: #1d4ed8; background: #eff6ff; border-color: #bfdbfe; }
+.badge[data-tone="neutral"] { color: var(--text-secondary); background: var(--bg); border-color: var(--border); }
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-panel);
+  padding: var(--sp-4) var(--sp-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.stat-label { font-size: 12px; color: var(--text-secondary); font-weight: 500; }
+.stat-value { font-size: 28px; font-weight: 600; letter-spacing: -0.02em; }
+.stat-hint { font-size: 12px; color: var(--text-secondary); }
+
+.device-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-panel);
+  padding: var(--sp-4);
+  display: flex;
+  gap: var(--sp-3);
+  align-items: flex-start;
+  cursor: pointer;
+}
+.device-card:hover { border-color: var(--border-strong); }
+.device-card[data-selected="true"] { border-color: var(--accent); }
+
+.detail-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-panel);
+  position: sticky;
+  top: 0;
+}
+
+.detail-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-5);
+  border-bottom: 1px solid var(--border);
+}
+
+.detail-tabs {
+  display: flex;
+  gap: var(--sp-1);
+  padding: 0 var(--sp-4);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+
+.detail-tab {
+  border: 0;
+  background: none;
+  padding: var(--sp-3) var(--sp-3);
+  font: inherit;
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.detail-tab[data-active="true"] { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+
+.detail-body { padding: var(--sp-5); display: flex; flex-direction: column; gap: var(--sp-4); }
+
+.kv { display: grid; grid-template-columns: 140px 1fr; gap: var(--sp-2) var(--sp-3); font-size: 13.5px; }
+.kv dt { color: var(--text-secondary); }
+.kv dd { margin: 0; word-break: break-word; }
+
+/* Flow Editor - Kapitel 2.14 */
+.flow-canvas {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-panel);
+  overflow: auto;
+  min-height: 360px;
+}
+
+.flow-node-box { fill: var(--surface); stroke: var(--border-strong); stroke-width: 1; }
+.flow-node-box[data-kind="incoming_number"] { stroke: var(--accent); }
+.flow-node-box[data-kind="end"] { stroke: var(--text-secondary); }
+.flow-node-label { fill: var(--text); font-size: 12px; font-weight: 600; }
+.flow-node-sub { fill: var(--text-secondary); font-size: 10px; }
+.flow-edge { stroke: var(--border-strong); stroke-width: 1.5; fill: none; }
+.flow-edge-label { fill: var(--text-secondary); font-size: 9px; }
+
+.legend { display: flex; flex-wrap: wrap; gap: var(--sp-3); font-size: 12px; color: var(--text-secondary); }
+
+.code-block {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--sp-3);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  margin: 0;
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "../schemas/provider-profile.schema.json",
+  "description": "Anbieterkatalog (Kapitel 10.1). Es werden bewusst nur generische, herstellerneutrale Profile ausgeliefert. Anbieterspezifische Profile ergaenzt der Betreiber, damit keine ungeprueften Angaben als gesichert erscheinen.",
+  "version": 1,
+  "profiles": [
+    {
+      "key": "generic-register",
+      "name": "Generic SIP (Registration)",
+      "transport": "udp",
+      "codecs": ["OPUS", "PCMA", "PCMU"],
+      "number_format": "e164",
+      "auth_capabilities": ["register", "digest"],
+      "capabilities": { "early_media": true, "clip_no_screening": false }
+    },
+    {
+      "key": "generic-static",
+      "name": "Generic SIP (Static IP)",
+      "transport": "udp",
+      "codecs": ["OPUS", "PCMA", "PCMU"],
+      "number_format": "e164",
+      "auth_capabilities": ["ip_auth"],
+      "capabilities": { "early_media": true, "clip_no_screening": true }
+    },
+    {
+      "key": "generic-tls",
+      "name": "Generic SIP (TLS/SRTP)",
+      "transport": "tls",
+      "codecs": ["OPUS", "PCMA"],
+      "number_format": "e164",
+      "auth_capabilities": ["register", "digest"],
+      "capabilities": { "srtp": true, "early_media": true }
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+#!/command/with-contenv sh
+# Health, Home-Assistant-Aktualisierung, Retention, ESL-Reconnect.
+exec /opt/extelio/bin/extelio-worker

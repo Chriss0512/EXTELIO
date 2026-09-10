@@ -1,0 +1,55 @@
+{
+  "product": "EXTELIO",
+  "version": "0.1.0",
+  "generated": "2026-09-10",
+  "reference": "EXTELIO_IMPLEMENTIERUNGSSPEZIFIKATION.md Kapitel 22.1",
+  "toolchain": {
+    "rust": "1.98.1",
+    "node": "24.21.0",
+    "cyclonedx_spec": "1.5"
+  },
+  "base_images": {
+    "amd64": {
+      "image": "ghcr.io/home-assistant/amd64-base:2026.08.0",
+      "digest": "sha256:db83d263152a02d6daf3415a73132b2386f43a03a9c248bdaabe047b067c8eea"
+    },
+    "aarch64": {
+      "image": "ghcr.io/home-assistant/aarch64-base:2026.08.0",
+      "digest": "sha256:265232fe91fb4271f75f17ebd4bb0749ab24fc8a64d8db38ddaccd460e9580ee"
+    }
+  },
+  "components": {
+    "freeswitch": {
+      "version": "1.11.3",
+      "built_from_source": true,
+      "enabled_by_default": false,
+      "note": "Wird ueber den Build-Parameter WITH_FREESWITCH aktiviert."
+    },
+    "certbot": {
+      "version": "5.7.0",
+      "source": "alpine package"
+    }
+  },
+  "rust_dependencies": {
+    "axum": "0.8",
+    "tokio": "1",
+    "rusqlite": "0.32",
+    "argon2": "0.5",
+    "aes-gcm": "0.10",
+    "hmac": "0.12",
+    "sha1": "0.10",
+    "sha2": "0.10",
+    "rand": "0.8",
+    "uuid": "1",
+    "time": "0.3",
+    "data-encoding": "2",
+    "zeroize": "1",
+    "subtle": "2"
+  },
+  "web_dependencies": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "typescript": "5.6.3",
+    "vite": "5.4.11"
+  }
+}

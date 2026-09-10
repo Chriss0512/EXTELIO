@@ -1,0 +1,3 @@
+#!/command/with-contenv sh
+# Weboberflaeche und API. Startet nach dem Secret Broker (Kapitel 21).
+exec /opt/extelio/bin/extelio-web

@@ -1,0 +1,71 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+  packages: write
+  id-token: write
+
+jobs:
+  publish:
+    name: Veroeffentlichen
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - arch: amd64
+            base: ghcr.io/home-assistant/amd64-base:2026.08.0
+            platform: linux/amd64
+          - arch: aarch64
+            base: ghcr.io/home-assistant/aarch64-base:2026.08.0
+            platform: linux/arm64
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+
+      - name: An GHCR anmelden
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Version aus dem Tag ableiten
+        id: meta
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          config_version=$(grep -m1 '^version' extelio/config.yaml | cut -d'"' -f2)
+          if [ "$version" != "$config_version" ]; then
+            echo "Tag $version passt nicht zu config.yaml ($config_version)" >&2
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Image bauen und veroeffentlichen
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: extelio
+          platforms: ${{ matrix.platform }}
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/extelio-${{ matrix.arch }}:${{ steps.meta.outputs.version }}
+          build-args: |
+            BUILD_FROM=${{ matrix.base }}
+            BUILD_ARCH=${{ matrix.arch }}
+            BUILD_VERSION=${{ steps.meta.outputs.version }}
+            WITH_FREESWITCH=${{ vars.WITH_FREESWITCH || '0' }}
+
+      - name: Digest sichern
+        run: |
+          echo "${{ matrix.arch }}: ${{ steps.build.outputs.digest }}" >> digests.txt
+          cat digests.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: digest-${{ matrix.arch }}
+          path: digests.txt

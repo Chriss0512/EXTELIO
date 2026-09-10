@@ -1,0 +1,85 @@
+name: Quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: extelio
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Rust-Toolchain einrichten
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.98.1
+          components: rustfmt, clippy
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: extelio
+
+      - name: Formatierung
+        run: cargo fmt --all -- --check
+
+      - name: Lint
+        run: cargo clippy --all-targets -- -D warnings
+
+      - name: Tests
+        run: cargo test --all-targets
+
+  frontend:
+    name: Frontend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: extelio/src/web
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.21.0
+          cache: npm
+          cache-dependency-path: extelio/src/web/package-lock.json
+
+      - run: npm ci --no-audit --no-fund
+
+      - name: Typpruefung
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+
+      - name: Content Security Policy prueft Inline-Freiheit
+        run: |
+          if grep -q 'style="' dist/index.html; then
+            echo "Inline-Style im Build gefunden" >&2
+            exit 1
+          fi
+          if grep -Eq '<script[^>]*>[^<]' dist/index.html; then
+            echo "Inline-Skript im Build gefunden" >&2
+            exit 1
+          fi
+          echo "Keine Inline-Styles oder Inline-Skripte."
+
+  locks:
+    name: Build-Baseline
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.98.1
+      - name: Versionen gegen build-lock.json pruefen
+        run: extelio/scripts/verify-locks.sh

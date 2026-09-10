@@ -1,0 +1,141 @@
+/* Buttons, Inputs, Toggles - Kapitel 2.9 */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  height: 38px;
+  padding: 0 var(--sp-4);
+  border-radius: var(--radius-button);
+  border: 1px solid transparent;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+
+.btn-secondary {
+  background: var(--surface);
+  border-color: var(--border-strong);
+  color: var(--control-text);
+}
+.btn-secondary:hover:not(:disabled) { background: var(--bg); }
+
+.btn-ghost { background: transparent; color: var(--control-text); font-weight: 500; }
+.btn-ghost:hover:not(:disabled) { background: var(--bg); }
+
+.btn-destructive { background: var(--ext-critical); color: #fff; }
+.btn-destructive:hover:not(:disabled) { background: #dc2626; }
+
+.btn-sm { height: 32px; padding: 0 var(--sp-3); font-size: 13px; }
+
+.btn-icon {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: var(--radius-button);
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.btn-icon:hover { background: var(--bg); color: var(--text); }
+
+.field { display: flex; flex-direction: column; gap: var(--sp-2); }
+
+.field-label { font-size: 13px; font-weight: 500; color: var(--control-text); }
+
+.input, .select, .textarea {
+  height: 39px;
+  padding: 0 var(--sp-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  width: 100%;
+}
+
+.textarea { height: auto; min-height: 140px; padding: var(--sp-3); font-family: var(--font-mono); font-size: 12.5px; }
+
+.input:focus, .select:focus, .textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+  border-color: var(--accent);
+}
+
+.input[aria-invalid="true"] { border-color: var(--ext-critical); }
+
+.field-help { font-size: 12px; color: var(--text-secondary); }
+.field-error { font-size: 12px; color: var(--ext-critical); }
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: 13.5px;
+  cursor: pointer;
+}
+
+.switch {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  border-radius: var(--radius-pill);
+  background: var(--border-strong);
+  border: 0;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.switch[data-on="true"] { background: var(--accent); }
+
+.switch-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.switch[data-on="true"] .switch-knob { left: 21px; }
+
+/* Advanced Settings sind standardmaessig eingeklappt (Kapitel 2.9). */
+.advanced-toggle {
+  background: none;
+  border: 0;
+  padding: var(--sp-2) 0;
+  color: var(--accent);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.search-input {
+  height: 34px;
+  min-width: 260px;
+  padding: 0 var(--sp-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  font: inherit;
+  font-size: 13px;
+  color: var(--text);
+}

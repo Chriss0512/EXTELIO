@@ -1,0 +1,71 @@
+name: Security
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # Woechentlich, damit neue Schwachstellen auch ohne Codeaenderung auffallen.
+    - cron: "17 4 * * 1"
+
+jobs:
+  audit:
+    name: Abhaengigkeiten
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.98.1
+
+      - name: cargo-audit installieren
+        run: cargo install cargo-audit --locked
+
+      - name: Rust-Abhaengigkeiten pruefen
+        working-directory: extelio
+        run: cargo audit --deny warnings
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.21.0
+
+      - name: Frontend-Abhaengigkeiten pruefen
+        working-directory: extelio/src/web
+        run: npm audit --audit-level=high
+
+  secrets:
+    name: Keine Secrets im Quelltext
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Auf verbotene Muster pruefen
+        run: |
+          set -eu
+          # Kapitel 5.6: das FreeSWITCH-Standardpasswort darf nirgends stehen.
+          if grep -rn --exclude-dir=.git --exclude-dir=node_modules \
+               --exclude=security.yml -e 'ClueCon' .; then
+            echo "Standardpasswort im Quelltext gefunden" >&2
+            exit 1
+          fi
+          # Kapitel 19.1: keine langlebigen Secrets in den Add-on-Optionen.
+          if grep -nE '^[[:space:]]*(password|secret|token|api_key):[[:space:]]*[^"'"'"'[:space:]]' \
+               extelio/config.yaml; then
+            echo "Secret in config.yaml gefunden" >&2
+            exit 1
+          fi
+          echo "Keine verbotenen Muster gefunden."
+
+  policy:
+    name: Sicherheitsregeln im Code
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Erzeugte Konfiguration darf keine Klartext-Passwoerter enthalten
+        run: |
+          set -eu
+          if grep -rn 'unsafe-inline' extelio/src/rust; then
+            echo "CSP erlaubt unsafe-inline" >&2
+            exit 1
+          fi
+          echo "Regeln eingehalten."

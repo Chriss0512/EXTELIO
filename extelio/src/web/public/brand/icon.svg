@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- EXTELIO App Icon -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="EXTELIO">
+  <title>EXTELIO</title>
+  <rect width="64" height="64" rx="15" fill="#2864DC"/>
+  <g fill="none" stroke="#FFFFFF" stroke-width="4.4" stroke-linecap="round">
+    <path d="M17 21h30M17 32h19M17 43h30"/>
+  </g>
+  <circle cx="43" cy="32" r="5" fill="#FFFFFF"/>
+</svg>
