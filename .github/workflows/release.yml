@@ -17,10 +17,10 @@ jobs:
       matrix:
         include:
           - arch: amd64
-            base: ghcr.io/home-assistant/amd64-base:2026.08.0
+            base: ghcr.io/home-assistant/amd64-base:3.24-2026.08.0@sha256:db83d263152a02d6daf3415a73132b2386f43a03a9c248bdaabe047b067c8eea
             platform: linux/amd64
           - arch: aarch64
-            base: ghcr.io/home-assistant/aarch64-base:2026.08.0
+            base: ghcr.io/home-assistant/aarch64-base:3.24-2026.08.0@sha256:265232fe91fb4271f75f17ebd4bb0749ab24fc8a64d8db38ddaccd460e9580ee
             platform: linux/arm64
     steps:
       - uses: actions/checkout@v4

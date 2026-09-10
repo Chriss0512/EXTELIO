@@ -10,11 +10,11 @@
   },
   "base_images": {
     "amd64": {
-      "image": "ghcr.io/home-assistant/amd64-base:2026.08.0",
+      "image": "ghcr.io/home-assistant/amd64-base:3.24-2026.08.0",
       "digest": "sha256:db83d263152a02d6daf3415a73132b2386f43a03a9c248bdaabe047b067c8eea"
     },
     "aarch64": {
-      "image": "ghcr.io/home-assistant/aarch64-base:2026.08.0",
+      "image": "ghcr.io/home-assistant/aarch64-base:3.24-2026.08.0",
       "digest": "sha256:265232fe91fb4271f75f17ebd4bb0749ab24fc8a64d8db38ddaccd460e9580ee"
     }
   },
