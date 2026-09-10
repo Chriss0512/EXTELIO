@@ -10,7 +10,7 @@ description: >-
   Software-defined Communications. Telefonanlage mit eigener Weboberflaeche,
   typisiertem Routing, verschluesselter Secret-Verwaltung und
   nachvollziehbarem Sicherheitsprotokoll.
-url: https://github.com/cd-faust/extelio-repository
+url: https://github.com/Chriss0512/EXTELIO
 arch:
   - amd64
   - aarch64

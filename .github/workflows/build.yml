@@ -27,7 +27,14 @@ jobs:
 
       - name: Version lesen
         id: meta
-        run: echo "version=$(grep -m1 '^version' extelio/config.yaml | cut -d'\"' -f2)" >> "$GITHUB_OUTPUT"
+        run: |
+          version="$(sed -nE 's/^version:[[:space:]]*"([^"]+)".*/\1/p' extelio/config.yaml | head -n1)"
+          if [ -z "$version" ]; then
+            echo "Keine Version aus extelio/config.yaml gelesen." >&2
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "EXTELIO version: $version"
 
       - name: Image bauen
         uses: docker/build-push-action@v6
